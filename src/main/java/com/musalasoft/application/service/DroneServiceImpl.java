@@ -1,5 +1,6 @@
 package com.musalasoft.application.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import com.musalasoft.application.model.Drone;
 import com.musalasoft.application.model.Medication;
 import com.musalasoft.application.repository.DroneRepository;
 import com.musalasoft.application.response.BattaryCapacity;
+import com.musalasoft.application.response.MedicationItems;
+import com.musalasoft.application.response.MedicationsForDrone;
 
 @Service
 public class DroneServiceImpl implements DroneService {
@@ -18,6 +21,9 @@ public class DroneServiceImpl implements DroneService {
 
 	@Override
 	public void registerDrone(Drone drone) {
+		
+		
+		
 		if(drone != null) {
 			droneRepository.save(drone);
 		}
@@ -68,5 +74,23 @@ public class DroneServiceImpl implements DroneService {
 			return drone.getBatteryCapacity();
 		}
 		return 0;
+	}
+
+	@Override
+	public MedicationsForDrone getMedicationItemForADrone(String serialNumber) {
+		Drone drone = droneRepository.getBySerialNumber(serialNumber);
+		
+		List<MedicationItems> itemList = new ArrayList<MedicationItems>();
+		
+		drone.getMedication().stream().forEach(item -> {
+			itemList.add(MedicationItems.builder()
+					.name(item.getName())
+					.code(item.getCode())
+					.weight(item.getWeight())
+					.image(item.getImageLocation())
+					.build());
+		});
+		
+		return MedicationsForDrone.builder().droneSerialNumber(serialNumber).medications(itemList).build();
 	}
 }

@@ -2,11 +2,8 @@ package com.musalasoft.application.controller;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.musalasoft.application.model.Drone;
 import com.musalasoft.application.response.BattaryCapacity;
+import com.musalasoft.application.response.MedicationsForDrone;
 import com.musalasoft.application.service.DroneService;
 
 @RestController
@@ -52,5 +50,10 @@ public class DroneController {
 	@ResponseStatus(value = HttpStatus.OK)
 	public List<Drone> getAvaialbeDrones() {
 		return droneService.getAvailableDrones();
+	}
+	
+	@GetMapping(value="/{serial-number}/medicationItems")
+	public MedicationsForDrone getMedicationForADrone(@PathVariable("serial-number")String serialNumber) {
+		return droneService.getMedicationItemForADrone(serialNumber);
 	}
 }
