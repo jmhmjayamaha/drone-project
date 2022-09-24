@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Max;
+
+import org.hibernate.validator.constraints.Length;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -26,10 +29,16 @@ public class Drone {
 	private int id;
 	
 	@Column(unique = true)
+	@Length(max = 100)
 	private String serialNumber;
+	
 	private String model;
+	
+	@Max(500)
 	private double weightLimit;
+	
 	private double batteryCapacity;
+	
 	private String state;
 	
 	  @OneToMany(fetch = FetchType.LAZY, mappedBy = "drone")
