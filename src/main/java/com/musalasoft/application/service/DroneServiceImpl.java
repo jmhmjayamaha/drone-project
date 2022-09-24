@@ -29,9 +29,9 @@ public class DroneServiceImpl implements DroneService {
 	}
 
 	@Override
-	public List<Drone> availableDrones() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Drone> getAvailableDrones() {
+		
+		return droneRepository.findAvailableDrones();
 	}
 
 	@Override

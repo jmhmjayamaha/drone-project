@@ -47,4 +47,10 @@ public class DroneController {
 	public BattaryCapacity getBattaryCapacity(@PathVariable("serial-number") String serialNumber) {
 		return droneService.droneBatteryCapacity(serialNumber);
 	}
+	
+	@GetMapping(value="/avaiable-for-load")
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<Drone> getAvaialbeDrones() {
+		return droneService.getAvailableDrones();
+	}
 }

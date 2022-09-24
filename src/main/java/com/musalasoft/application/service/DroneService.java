@@ -11,7 +11,7 @@ public interface DroneService {
 	public void registerDrone(Drone drone);
 	public Drone getDroneDetails(String serialNumber);
 	public BattaryCapacity droneBatteryCapacity(String serialNumber);
-	public List<Drone> availableDrones();
+	public List<Drone> getAvailableDrones();
 	public List<Drone> getAllDrones();
 	public List<Medication> meditionItemforDrone(String serialNumber);
 	public void addMedicationItemsForDrone(String serialNumber, Medication medication);
