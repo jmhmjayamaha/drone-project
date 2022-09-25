@@ -62,9 +62,10 @@ public class DroneController {
 		return droneService.getMedicationItemForADrone(serialNumber);
 	}
 	
-	@PostMapping(value="/add-medication")
+	@PostMapping(value="/load-medication")
 	@ResponseStatus(value=HttpStatus.OK)
-	public void addMedicationforDrone(@RequestBody MedicationDTO medicationDto) {
+	public ResponseEntity<Object> addMedicationforDrone(@RequestBody MedicationDTO medicationDto) {
 		droneService.addMedicationItemsForDrone(medicationDto);
+		return ResponseEntity.created(null).body("");
 	}
 }

@@ -6,4 +6,4 @@ INSERT INTO drone_details (id,serial_number, model,weight_limit,battery_capacity
 INSERT INTO medication_details (id, name, weight,code,image_location,drone_id) VALUES (2,'suger tester',100,'3r4s','http://locations',2);
 INSERT INTO medication_details (id, name, weight,code,image_location,drone_id) VALUES (3,'test tester',100,'3r4s','http://locations',2);
 
-INSERT INTO drone_details (id,serial_number, model,weight_limit,battery_capacity,state) VALUES (3,'asdfddec1sdf235','Lightweight',400,90,'IDLE');
+INSERT INTO drone_details (id,serial_number, model,weight_limit,battery_capacity,state) VALUES (3,'asdfddec1sdf235','Lightweight',400,24,'IDLE');

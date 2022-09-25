@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.musalasoft.application.dto.MedicationDTO;
+import com.musalasoft.application.exception.CustomException;
 import com.musalasoft.application.exception.ResourceNotFoundException;
 import com.musalasoft.application.model.Drone;
 import com.musalasoft.application.model.DroneState;
@@ -64,6 +65,11 @@ public class DroneServiceImpl implements DroneService {
 		Drone drone = droneRepository.getBySerialNumber(medicationDto.getSerialNumber());
 		
 		if(drone != null) {
+			if((drone.getState().equals(DroneState.LOADING.toString()) || drone.getState().equals(DroneState.IDLE.toString())) 
+					&& drone.getBatteryCapacity() < 25) {
+				throw new CustomException("Battary is below 25%");
+			}
+			
 			Medication medication = new Medication();
 			medication.setDrone(drone);
 			medication.setName(medicationDto.getName());
@@ -74,6 +80,9 @@ public class DroneServiceImpl implements DroneService {
 			medicationRepository.save(medication);
 			drone.setState(DroneState.LOADING.toString());
 			droneRepository.save(drone);
+		} else {
+			throw new ResourceNotFoundException("serial number : " + medicationDto.getSerialNumber() +
+					"Not Found");
 		}
 	}
 

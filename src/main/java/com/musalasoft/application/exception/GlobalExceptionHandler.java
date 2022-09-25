@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.validation.ConstraintViolationException;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -33,6 +34,33 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex) {
+		List<String> details = new ArrayList<String>();
+		details.add(ex.getMessage());
+		
+		APIError error = APIError.builder().timestamp(LocalDateTime.now())
+				.status(HttpStatus.BAD_REQUEST)
+				.message("Constraint Violation")
+				.errors(details)
+				.build();
+		
+		return ResponseEntityBuilder.build(error);
+	}
+	
+	@ExceptionHandler(CustomException.class)
+	public ResponseEntity<Object> handleCustomException(CustomException ex) {
+		List<String> details = null;
+		
+		APIError error = APIError.builder().timestamp(LocalDateTime.now())
+				.status(HttpStatus.BAD_REQUEST)
+				.message(ex.getMessage())
+				.errors(details)
+				.build();
+		
+		return ResponseEntityBuilder.build(error);
+	}
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<Object> handleJdbcSQLIntegrityConstraintViolationException(DataIntegrityViolationException ex) {
 		List<String> details = new ArrayList<String>();
 		details.add(ex.getMessage());
 		
