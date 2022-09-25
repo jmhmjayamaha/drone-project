@@ -2,6 +2,7 @@ package com.musalasoft.application.service;
 
 import java.util.List;
 
+import com.musalasoft.application.dto.MedicationDTO;
 import com.musalasoft.application.model.Drone;
 import com.musalasoft.application.model.Medication;
 import com.musalasoft.application.response.BattaryCapacity;
@@ -15,6 +16,6 @@ public interface DroneService {
 	public List<Drone> getAvailableDrones();
 	public List<Drone> getAllDrones();
 	public List<Medication> meditionItemforDrone(String serialNumber);
-	public void addMedicationItemsForDrone(String serialNumber, Medication medication);
+	public void addMedicationItemsForDrone(MedicationDTO medication);
 	public MedicationsForDrone getMedicationItemForADrone(String serialNumber);
 }

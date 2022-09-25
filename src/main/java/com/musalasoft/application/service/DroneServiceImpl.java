@@ -3,12 +3,18 @@ package com.musalasoft.application.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.musalasoft.application.dto.MedicationDTO;
+import com.musalasoft.application.exception.ResourceNotFoundException;
 import com.musalasoft.application.model.Drone;
+import com.musalasoft.application.model.DroneState;
 import com.musalasoft.application.model.Medication;
 import com.musalasoft.application.repository.DroneRepository;
+import com.musalasoft.application.repository.MedicationRepository;
 import com.musalasoft.application.response.BattaryCapacity;
 import com.musalasoft.application.response.MedicationItems;
 import com.musalasoft.application.response.MedicationsForDrone;
@@ -18,20 +24,27 @@ public class DroneServiceImpl implements DroneService {
 
 	@Autowired
 	private DroneRepository droneRepository;
+	
+	@Autowired
+	private MedicationRepository medicationRepository;
 
 	@Override
 	public void registerDrone(Drone drone) {
 		
 		
-		
-		if(drone != null) {
-			droneRepository.save(drone);
-		}
+			if(drone != null) {
+				droneRepository.save(drone);
+			}
+		 
 	}
 
 	@Override
 	public Drone getDroneDetails(String serialNumber) {
-		return droneRepository.getBySerialNumber(serialNumber);
+		Drone drone = droneRepository.getBySerialNumber(serialNumber);
+		if(drone == null) {
+			throw new ResourceNotFoundException("serial number : " + serialNumber + "Not Found");
+		}
+		return drone;
 	}
 
 	@Override
@@ -47,9 +60,21 @@ public class DroneServiceImpl implements DroneService {
 	}
 
 	@Override
-	public void addMedicationItemsForDrone(String serialNumber, Medication medication) {
-		// TODO Auto-generated method stub
+	public void addMedicationItemsForDrone(MedicationDTO medicationDto) {
+		Drone drone = droneRepository.getBySerialNumber(medicationDto.getSerialNumber());
 		
+		if(drone != null) {
+			Medication medication = new Medication();
+			medication.setDrone(drone);
+			medication.setName(medicationDto.getName());
+			medication.setWeight(medicationDto.getWeight());
+			medication.setCode(medicationDto.getCode());
+			medication.setImageLocation(medicationDto.getImageLocation());
+			
+			medicationRepository.save(medication);
+			drone.setState(DroneState.LOADING.toString());
+			droneRepository.save(drone);
+		}
 	}
 
 	@Override
@@ -72,8 +97,9 @@ public class DroneServiceImpl implements DroneService {
 		Drone drone = droneRepository.getBySerialNumber(serialNumber);
 		if(drone != null) {
 			return drone.getBatteryCapacity();
+		} else {
+			throw new ResourceNotFoundException("serial number : " + serialNumber + "Not Found");
 		}
-		return 0;
 	}
 
 	@Override

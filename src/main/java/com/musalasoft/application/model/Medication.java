@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
@@ -29,9 +30,14 @@ public class Medication {
 	private int id;
 	
 	@Column(unique = true)
+	@Pattern(regexp = "^[A-Za-z0-9_-]*$")
 	private String name;
+	
 	private double weight;
+	
+	@Pattern(regexp = "^[A-Z0-9_]*$")
 	private String code;
+	
 	private String imageLocation;
 	
 	

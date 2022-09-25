@@ -22,7 +22,7 @@ public class BattaryEventSchedulerImpl implements BattaryEventScheduler {
 	private DroneRepository droneRepo;
 	
 	@Override
-	@Scheduled(fixedRate = 5000)
+	@Scheduled(fixedRate = 500000)
 	public void eventLogsScheduler() {
 		List<Drone> droneList = (List<Drone>) droneRepo.findAll();
 		droneList.stream().forEach(drone -> {
