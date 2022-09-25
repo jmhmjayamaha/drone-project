@@ -3,7 +3,6 @@ package com.musalasoft.application.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.xml.ResourceEntityResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.musalasoft.application.dto.MedicationDTO;
-import com.musalasoft.application.exception.ResourceNotFoundException;
 import com.musalasoft.application.model.Drone;
 import com.musalasoft.application.response.BattaryCapacity;
 import com.musalasoft.application.response.MedicationsForDrone;
@@ -63,7 +61,6 @@ public class DroneController {
 	}
 	
 	@PostMapping(value="/load-medication")
-	@ResponseStatus(value=HttpStatus.OK)
 	public ResponseEntity<Object> addMedicationforDrone(@RequestBody MedicationDTO medicationDto) {
 		droneService.addMedicationItemsForDrone(medicationDto);
 		return ResponseEntity.created(null).body("");

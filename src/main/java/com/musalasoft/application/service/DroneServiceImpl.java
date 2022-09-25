@@ -35,6 +35,8 @@ public class DroneServiceImpl implements DroneService {
 		
 			if(drone != null) {
 				droneRepository.save(drone);
+			} else {
+				throw new ResourceNotFoundException("Passing drone object is null");
 			}
 		 
 	}
@@ -63,11 +65,20 @@ public class DroneServiceImpl implements DroneService {
 	@Override
 	public void addMedicationItemsForDrone(MedicationDTO medicationDto) {
 		Drone drone = droneRepository.getBySerialNumber(medicationDto.getSerialNumber());
-		
+		double totalWeight = 0.0;
 		if(drone != null) {
 			if((drone.getState().equals(DroneState.LOADING.toString()) || drone.getState().equals(DroneState.IDLE.toString())) 
 					&& drone.getBatteryCapacity() < 25) {
 				throw new CustomException("Battary is below 25%");
+			}
+			
+			for(Medication items : drone.getMedication()) {
+				totalWeight += items.getWeight();
+			}
+			totalWeight += medicationDto.getWeight();
+			
+			if(totalWeight > drone.getWeightLimit()) {
+				throw new CustomException("Maximum weight exceed the limit " + drone.getWeightLimit());
 			}
 			
 			Medication medication = new Medication();
