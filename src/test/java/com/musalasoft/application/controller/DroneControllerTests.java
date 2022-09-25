@@ -1,5 +1,7 @@
 package com.musalasoft.application.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +14,9 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -49,12 +54,45 @@ public class DroneControllerTests {
 		
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		
-		System.out.println(result.getResponse().getContentAsString());
-		
 		String expected = "[{\"id\":1,\"serialNumber\":\"sdbddetijkigk124kkd\",\"model\":\"Heavyweight\",\"weightLimit\":400.0,\"batteryCapacity\":80.0,\"state\":\"IDLE\",\"medication\":[]},"
 				+ "{\"id\":2,\"serialNumber\":\"sdfsdfsdfdsfs23434\",\"model\":\"Lightweight\",\"weightLimit\":450.0,\"batteryCapacity\":77.0,\"state\":\"IDLE\",\"medication\":[]}]";
 		
 		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
+	}
+	
+	@Test
+	public void findBySerialNumberTest() throws Exception {
+		Mockito.when(droneService.getDroneDetails(Mockito.any(String.class))).thenReturn(createDrone());
+		
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/drone/asdfddec1235")
+				.accept(MediaType.APPLICATION_JSON);
+		
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		
+		String expected = "{\"id\":1,\"serialNumber\":\"sdbddetijkigk124kkd\",\"model\":\"Heavyweight\",\"weightLimit\":"
+				+ "400.0,\"batteryCapacity\":86.0,\"state\":\"IDLE\",\"medication\":[]}";
+		
+		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
+	}
+	
+	@Test
+	public void registerDroneTest() throws Exception {
+		Mockito.doNothing().when(droneService).registerDrone(Mockito.any(Drone.class));
+		
+		String content = "{\"serialNumber\": \"adeeeeffebcdefd\",\"model\":"
+				+ " \"Lightweight\",\"weightLimit\": 456.0,\"batteryCapacity\": 90.0,\"state\": \"IDLE\"}";
+		
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
+				.post("/api/v1/drone/register")
+				.accept(MediaType.APPLICATION_JSON)
+				.content(content)
+				.contentType(MediaType.APPLICATION_JSON);
+		
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		
+		MockHttpServletResponse response = result.getResponse();
+		
+		assertEquals(HttpStatus.CREATED.value(), response.getStatus());
 	}
 	
 	private List<Drone> createDroneList() {
@@ -82,5 +120,20 @@ public class DroneControllerTests {
 		list.add(drone1);
 		list.add(drone2);
 		return list;
+	}
+	
+	private Drone createDrone() {
+		Drone drone1 = new Drone();
+		Set<Medication> set = new HashSet<Medication>();
+		
+		drone1.setId(1);
+		drone1.setSerialNumber("sdbddetijkigk124kkd");
+		drone1.setModel(DroneModel.HEAVYWEIGHT.toString());
+		drone1.setWeightLimit(400.0);
+		drone1.setBatteryCapacity(86.0);
+		drone1.setState(DroneState.IDLE.toString());
+		drone1.setMedication(set);
+		
+		return drone1;
 	}
 }
