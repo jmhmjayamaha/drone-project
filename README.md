@@ -25,6 +25,12 @@ mvn clean install
 java -jar target/musalasoft-drone-0.0.1-SNAPSHOT.jar
 ```
 
+## Running Unit Tests
+
+```
+mvn test
+```
+
 ## API Specification
 
 # drone register
