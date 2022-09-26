@@ -33,7 +33,7 @@ mvn test
 
 ## API Specification
 
-# drone register
+### drone register
 
 ```
 POST /api/v1/drone/register
@@ -51,7 +51,7 @@ Content-Type: application/json
 RESPONSE: HTTP 201 (Created)
 ```
 
-# get all drones
+### get all drones
 
 ```
 GET /api/v1/drone/all
@@ -90,7 +90,7 @@ RESPONSE: HTTP 200 (OK)
 ]
 ```
 
-# get drone by serial number 
+### get drone by serial number 
 
 ```
 GET /api/v1/drone/{serial-number}
@@ -109,7 +109,7 @@ RESPONSE: HTTP 200 (OK)
 }
 ```
 
-# get drone's battary capacity
+### get drone's battary capacity
 
 ```
 GET /api/v1/drone/battary-capacity/{serial-number}
@@ -123,7 +123,7 @@ RESPONSE: HTTP 200 (OK)
 }
 ```
 
-# find available drones for loading
+### find available drones for loading
 
 ```
 GET /api/v1/drone/avaiable-for-load
@@ -144,7 +144,7 @@ RESPONSE: HTTP 200 (OK)
 ]
 ```
 
-# get Medication for a given Drone
+### get Medication for a given Drone
 
 ```
 GET /api/v1/drone/{serial-number}/medicationItems
@@ -165,7 +165,7 @@ RESPONSE: HTTP 200 (OK)
 }
 ```
 
-# Battary Event logs
+### Battary Event logs
 
 ```
 GET /api/v1/audit/battary
@@ -195,7 +195,7 @@ RESPONSE: HTTP 200 (OK)
 ]
 ```
 
-# Load medication for a drone
+### Load medication for a drone
 
 ```
 curl --location --request POST '/api/v1/drone/load-medication' \
