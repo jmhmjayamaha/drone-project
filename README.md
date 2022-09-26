@@ -15,3 +15,12 @@ Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/
 ```shell
 mvn spring-boot:run
 ```
+Aslo, you can build the project using following command and run the jar file mannually
+
+```shell
+mvn clean install
+```
+
+```shell
+java -jar target/musalasoft-drone-0.0.1-SNAPSHOT.jar
+```
