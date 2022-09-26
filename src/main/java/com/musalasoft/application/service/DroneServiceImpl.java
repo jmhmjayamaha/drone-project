@@ -34,8 +34,7 @@ public class DroneServiceImpl implements DroneService {
 
 	@Override
 	public void registerDrone(Drone drone) {
-		
-		
+	
 			if(drone != null) {
 				droneRepository.save(drone);
 			} else {
@@ -130,7 +129,7 @@ public class DroneServiceImpl implements DroneService {
 		if(drone != null) {
 			return drone.getBatteryCapacity();
 		} else {
-			throw new ResourceNotFoundException("serial number : " + serialNumber + "Not Found");
+			throw new ResourceNotFoundException("serial number : " + serialNumber + " Not Found");
 		}
 	}
 
@@ -139,6 +138,10 @@ public class DroneServiceImpl implements DroneService {
 		Drone drone = droneRepository.getBySerialNumber(serialNumber);
 		
 		List<MedicationItems> itemList = new ArrayList<MedicationItems>();
+		
+		if(drone == null) {
+			throw new ResourceNotFoundException("serial number : " + serialNumber + " Not Found");
+		}
 		
 		drone.getMedication().stream().forEach(item -> {
 			itemList.add(MedicationItems.builder()
