@@ -9,18 +9,24 @@ import java.io.IOException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.musalasoft.application.exception.ResourceNotFoundException;
+
 @Service
 public class ImageService {
 
-	public void saveFile(MultipartFile multipartFile, Path path) {
-		 try {
-	            File directory=new File(path.toString());
-	            if(!directory.exists())
-	                directory.mkdirs();
-	            Files.write(path.resolve(multipartFile.getOriginalFilename()),
-					multipartFile.getBytes());
-	        } catch (IOException e) {
-	            System.out.println("Error while storing file "+e);
-	        }
+	public void saveFile(MultipartFile multipartFile, Path path) throws IOException {
+		
+		System.out.println("multipart object: " + multipartFile);
+		if(multipartFile == null) {
+			
+			throw new ResourceNotFoundException("File is not found in the given path");
+		}
+		
+        File directory=new File(path.toString());
+        if(!directory.exists())
+            directory.mkdirs();
+        Files.write(path.resolve(multipartFile.getOriginalFilename()),
+			multipartFile.getBytes());
+	        
 	}
 }

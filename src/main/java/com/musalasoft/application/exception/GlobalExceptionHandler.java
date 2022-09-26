@@ -1,5 +1,6 @@
 package com.musalasoft.application.exception;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		APIError error = APIError.builder().timestamp(LocalDateTime.now())
 				.status(HttpStatus.BAD_REQUEST)
 				.message("Constraint Violation")
+				.errors(details)
+				.build();
+		
+		return ResponseEntityBuilder.build(error);
+	}
+	
+	@ExceptionHandler(IOException.class)
+	public ResponseEntity<Object> handleIOException(IOException ex) {
+		List<String> details = new ArrayList<String>();
+		details.add(ex.getMessage());
+		
+		APIError error = APIError.builder().timestamp(LocalDateTime.now())
+				.status(HttpStatus.BAD_REQUEST)
+				.message("IO Exeption occured")
 				.errors(details)
 				.build();
 		

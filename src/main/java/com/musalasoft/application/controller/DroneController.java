@@ -1,5 +1,6 @@
 package com.musalasoft.application.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,7 @@ public class DroneController {
 	}
 	
 	@PostMapping(value="/load-medication")
-	public ResponseEntity<Object> addMedicationforDrone(@ModelAttribute MedicationDTO medicationDto) {
+	public ResponseEntity<Object> addMedicationforDrone(@ModelAttribute MedicationDTO medicationDto) throws IOException{
 		droneService.addMedicationItemsForDrone(medicationDto);
 		return ResponseEntity.created(null).body("");
 	}

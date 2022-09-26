@@ -1,5 +1,6 @@
 package com.musalasoft.application.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.musalasoft.application.dto.MedicationDTO;
@@ -16,6 +17,6 @@ public interface DroneService {
 	public List<Drone> getAvailableDrones();
 	public List<Drone> getAllDrones();
 	public List<Medication> meditionItemforDrone(String serialNumber);
-	public void addMedicationItemsForDrone(MedicationDTO medication);
+	public void addMedicationItemsForDrone(MedicationDTO medication) throws IOException;
 	public MedicationsForDrone getMedicationItemForADrone(String serialNumber);
 }

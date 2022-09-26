@@ -1,5 +1,6 @@
 package com.musalasoft.application.service;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class DroneServiceImpl implements DroneService {
 	}
 
 	@Override
-	public void addMedicationItemsForDrone(MedicationDTO medicationDto) {
+	public void addMedicationItemsForDrone(MedicationDTO medicationDto) throws IOException {
 		Drone drone = droneRepository.getBySerialNumber(medicationDto.getSerialNumber());
 		double totalWeight = 0.0;
 		if(drone != null) {
