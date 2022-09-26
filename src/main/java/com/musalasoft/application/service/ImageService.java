@@ -15,10 +15,7 @@ import com.musalasoft.application.exception.ResourceNotFoundException;
 public class ImageService {
 
 	public void saveFile(MultipartFile multipartFile, Path path) throws IOException {
-		
-		System.out.println("multipart object: " + multipartFile);
-		if(multipartFile == null) {
-			
+		if(multipartFile == null) {		
 			throw new ResourceNotFoundException("File is not found in the given path");
 		}
 		
@@ -27,6 +24,5 @@ public class ImageService {
             directory.mkdirs();
         Files.write(path.resolve(multipartFile.getOriginalFilename()),
 			multipartFile.getBytes());
-	        
 	}
 }

@@ -5,6 +5,7 @@ For building and running the application you need:
 
 - JDK 11
 - Maven 3.x.x
+- this application is using in memory H2 database 
 
 ## Running the application locally
 

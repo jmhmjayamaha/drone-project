@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,8 @@ import com.musalasoft.application.response.MedicationsForDrone;
 
 @Service
 public class DroneServiceImpl implements DroneService {
+	
+	private static final Logger log = LoggerFactory.getLogger(DroneServiceImpl.class);
 
 	@Autowired
 	private DroneRepository droneRepository;
@@ -80,6 +84,8 @@ public class DroneServiceImpl implements DroneService {
 			}
 			totalWeight += medicationDto.getWeight();
 			
+			log.info("total weight :  " + totalWeight);
+			
 			if(totalWeight > drone.getWeightLimit()) {
 				throw new CustomException("Maximum weight exceed the limit " + drone.getWeightLimit());
 			}
@@ -94,6 +100,8 @@ public class DroneServiceImpl implements DroneService {
 			medication.setCode(medicationDto.getCode());
 			medication.setImageLocation("src/main/resources/images/" + medicationDto.getName() + 
 					"/" + medicationDto.getImage().getOriginalFilename());
+			
+			log.info("image is saved to : " + medication.getImageLocation());
 			
 			medicationRepository.save(medication);
 			drone.setState(DroneState.LOADING.toString());
