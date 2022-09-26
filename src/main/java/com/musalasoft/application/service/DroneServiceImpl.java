@@ -1,9 +1,9 @@
 package com.musalasoft.application.service;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +28,9 @@ public class DroneServiceImpl implements DroneService {
 	
 	@Autowired
 	private MedicationRepository medicationRepository;
+	
+	@Autowired
+	private ImageService imageService;
 
 	@Override
 	public void registerDrone(Drone drone) {
@@ -81,12 +84,16 @@ public class DroneServiceImpl implements DroneService {
 				throw new CustomException("Maximum weight exceed the limit " + drone.getWeightLimit());
 			}
 			
+			imageService.saveFile(medicationDto.getImage(), getFilePath("src/main/resources/images", 
+					medicationDto.getName()));
+			
 			Medication medication = new Medication();
 			medication.setDrone(drone);
 			medication.setName(medicationDto.getName());
 			medication.setWeight(medicationDto.getWeight());
 			medication.setCode(medicationDto.getCode());
-			medication.setImageLocation(medicationDto.getImageLocation());
+			medication.setImageLocation("src/main/resources/images/" + medicationDto.getName() + 
+					"/" + medicationDto.getImage().getOriginalFilename());
 			
 			medicationRepository.save(medication);
 			drone.setState(DroneState.LOADING.toString());
@@ -97,6 +104,11 @@ public class DroneServiceImpl implements DroneService {
 		}
 	}
 
+	private Path getFilePath(String basePath, String medicationName){
+        Path path= Paths.get(basePath);
+        return path.resolve(String.valueOf(medicationName));
+    }
+	
 	@Override
 	public List<Drone> getAllDrones() {
 		

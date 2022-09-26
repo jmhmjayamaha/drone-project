@@ -3,6 +3,7 @@ package com.musalasoft.application.dto;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,5 +23,5 @@ public class MedicationDTO {
 	@Pattern(regexp = "^[A-Z0-9_]*$")
 	private String code;
 	
-	private String imageLocation;
+	private MultipartFile image;
 }

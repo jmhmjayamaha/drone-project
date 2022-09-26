@@ -6,4 +6,4 @@ INSERT INTO drone_details (id,serial_number, model,weight_limit,battery_capacity
 INSERT INTO medication_details (id, name, weight,code,image_location,drone_id) VALUES (2,'Gabapentin',100,'MEDIC121','http://locations',2);
 INSERT INTO medication_details (id, name, weight,code,image_location,drone_id) VALUES (3,'Gonak_Hypromellose',100,'MEDIC123','http://locations',2);
 
-INSERT INTO drone_details (id,serial_number, model,weight_limit,battery_capacity,state) VALUES (3,'mzcgqPwDF7YiX96EGUu9','Lightweight',400,24,'IDLE');
+INSERT INTO drone_details (id,serial_number, model,weight_limit,battery_capacity,state) VALUES (3,'mzcgqPwDF7YiX96EGUu9','Lightweight',400,30,'IDLE');
