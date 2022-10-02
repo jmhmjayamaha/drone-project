@@ -34,6 +34,12 @@ mvn test
 
 ## API Specification
 
+### Swagger UI
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
 ### drone register
 
 ```
